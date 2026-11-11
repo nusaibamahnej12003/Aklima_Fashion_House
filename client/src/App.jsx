@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AdminLogin, AdminDashboard } from "./Admin";
 import "./App.css";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function Storefront() {
   const [selectedCategory, setSelectedCategory] = useState("সব পণ্য");
@@ -37,8 +38,7 @@ const [checkoutError, setCheckoutError] = useState("");
 
   // Load products from backend
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
-      .then((response) => {
+     fetch(`${API_BASE_URL}/api/products`)      .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to load products");
         }
@@ -300,7 +300,7 @@ const productImages = selectedProduct
       <footer className="af-footer" id="about">
 
         <h2>{storeSettings.storeName}</h2>
-        
+
         <p>আপনার পছন্দ, আমাদের অনুপ্রেরণা।</p>
       </footer>
 
@@ -603,7 +603,7 @@ const productImages = selectedProduct
       setPlacingOrder(true);
       setCheckoutError("");
 
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await  fetch(`${API_BASE_URL}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -779,7 +779,7 @@ function App() {
     });
 
     useEffect(() => {
-  fetch("http://localhost:5000/api/store-settings")
+fetch(`${API_BASE_URL}/api/store-settings`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to load store settings");

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Admin.css";
 
-const API = "http://localhost:5000";
-
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const emptyProduct = {
   slug: "",
   name: "",
@@ -31,7 +30,7 @@ function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API}/api/admin/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -128,7 +127,7 @@ const [settingsLoading, setSettingsLoading] = useState(true);
     setError("");
 
     try {
-      const response = await fetch(`${API}/api/admin/products`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/products`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -168,7 +167,7 @@ const [settingsLoading, setSettingsLoading] = useState(true);
   setOrdersLoading(true);
 
   try {
-    const response = await fetch(`${API}/api/admin/orders`, {
+    const response = await fetch(`${API_BASE_URL}/api/admin/orders`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -198,7 +197,7 @@ async function loadStoreSettings() {
   setSettingsLoading(true);
 
   try {
-    const response = await fetch(`${API}/api/store-settings`);
+    const response = await fetch(`${API_BASE_URL}/api/store-settings`);
     const data = await response.json();
 
     if (!response.ok) {
@@ -231,7 +230,7 @@ async function handleSaveStoreSettings(e) {
       uploadForm.append("image", logoFile);
 
       const uploadResponse = await fetch(
-        `${API}/api/admin/upload-logo`,
+        `${API_BASE_URL}/api/admin/upload-logo`,
         {
           method: "POST",
           headers: {
@@ -252,7 +251,7 @@ async function handleSaveStoreSettings(e) {
     }
 
     // Save store name and logo details
-    const response = await fetch(`${API}/api/admin/store-settings`, {
+    const response = await fetch(`${API_BASE_URL}/api/admin/store-settings`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -350,7 +349,7 @@ async function handleImageUpload(e) {
   setMessage("");
 
   try {
-    const response = await fetch(`${API}/api/admin/upload-images`, {
+    const response = await fetch(`${API_BASE_URL}/api/admin/upload-images`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -434,8 +433,8 @@ function removeProductImage(imageUrl) {
 
       const response = await fetch(
         isEditing
-          ? `${API}/api/admin/products/${editingId}`
-          : `${API}/api/admin/products`,
+          ? `${API_BASE_URL}/api/admin/products/${editingId}`
+          : `${API_BASE_URL}/api/admin/products`,
         {
           method: isEditing ? "PUT" : "POST",
           headers: {
@@ -484,7 +483,7 @@ await loadProducts();
     setMessage("");
 
     try {
-      const response = await fetch(`${API}/api/admin/products/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/products/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -521,7 +520,7 @@ await loadProducts();
 
   try {
     const response = await fetch(
-      `${API}/api/admin/orders/${orderId}/status`,
+      `${API_BASE_URL}/api/admin/orders/${orderId}/status`,
       {
         method: "PATCH",
         headers: {

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import "./OrderTracking.css";
 
-const API = "http://localhost:5000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function OrderTracking() {
   const [orderNumber, setOrderNumber] = useState("");
@@ -20,7 +20,7 @@ function OrderTracking() {
 
     try {
       const response = await fetch(
-        `${API}/api/orders/${encodeURIComponent(orderNumber.trim())}?phone=${encodeURIComponent(phone.trim())}`
+        `${API_BASE_URL}/api/orders/${encodeURIComponent(orderNumber.trim())}?phone=${encodeURIComponent(phone.trim())}`
       );
 
       const data = await response.json();
