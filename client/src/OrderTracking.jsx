@@ -1,10 +1,23 @@
 
+
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, Check } from "lucide-react";
 import "./OrderTracking.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-function OrderTracking() {
+const STATUSES = ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED"];
+
+const STATUS_LABELS = {
+  PENDING: "Pending",
+  CONFIRMED: "Confirmed",
+  SHIPPED: "Shipped",
+  DELIVERED: "Delivered",
+  CANCELLED: "Cancelled",
+};
+
+function OrderTracking({ storeName = "Aklima Fashion House" }) {
   const [orderNumber, setOrderNumber] = useState("");
   const [phone, setPhone] = useState("");
   const [order, setOrder] = useState(null);
@@ -20,7 +33,9 @@ function OrderTracking() {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/orders/${encodeURIComponent(orderNumber.trim())}?phone=${encodeURIComponent(phone.trim())}`
+        `${API_BASE_URL}/api/orders/${encodeURIComponent(
+          orderNumber.trim()
+        )}?phone=${encodeURIComponent(phone.trim())}`
       );
 
       const data = await response.json();
@@ -37,26 +52,23 @@ function OrderTracking() {
     }
   }
 
-  const statuses = [
-    "PENDING",
-    "CONFIRMED",
-    "SHIPPED",
-    "DELIVERED",
-  ];
-
-  const statusLabels = {
-    PENDING: "Pending",
-    CONFIRMED: "Confirmed",
-    SHIPPED: "Shipped",
-    DELIVERED: "Delivered",
-    CANCELLED: "Cancelled",
-  };
+  const currentIndex = order ? STATUSES.indexOf(order.status) : -1;
 
   return (
     <div className="tracking-page">
+      <header className="tracking-header">
+        <Link to="/" className="tracking-back">
+          <ArrowLeft size={18} /> Back to shop
+        </Link>
+        <span className="tracking-brand">{storeName}</span>
+      </header>
+
       <div className="tracking-card">
+        <p className="tracking-eyebrow">ORDER STATUS</p>
         <h1>Track Your Order</h1>
-        <p>Enter your Order ID and phone number to check your order.</p>
+        <p className="tracking-sub">
+          Enter your Order ID and phone number to check your order.
+        </p>
 
         <form onSubmit={handleTrack}>
           <label>Order ID</label>
@@ -86,44 +98,49 @@ function OrderTracking() {
 
         {order && (
           <div className="tracking-result">
-            <h2>Order Details</h2>
-
-            <p><strong>Order ID:</strong> {order.orderNumber}</p>
-            <p><strong>Customer:</strong> {order.customerName}</p>
-            <p><strong>Total:</strong> ৳ {order.total.toLocaleString("en-BD")}</p>
-            <p>
-              <strong>Order Date:</strong>{" "}
-              {new Date(order.createdAt).toLocaleDateString("en-BD")}
-            </p>
-
-            <div className="tracking-status">
-              <strong>Current Status: </strong>
-              <span className={`status-${order.status.toLowerCase()}`}>
-                {statusLabels[order.status] || order.status}
+            <div className="tracking-result-head">
+              <h2>Order Details</h2>
+              <span className={`tracking-pill status-${order.status.toLowerCase()}`}>
+                {STATUS_LABELS[order.status] || order.status}
               </span>
             </div>
 
+            <dl className="tracking-meta">
+              <div>
+                <dt>Order ID</dt>
+                <dd>{order.orderNumber}</dd>
+              </div>
+              <div>
+                <dt>Customer</dt>
+                <dd>{order.customerName}</dd>
+              </div>
+              <div>
+                <dt>Total</dt>
+                <dd>৳ {order.total.toLocaleString("en-BD")}</dd>
+              </div>
+              <div>
+                <dt>Order Date</dt>
+                <dd>{new Date(order.createdAt).toLocaleDateString("en-BD")}</dd>
+              </div>
+            </dl>
+
             {order.status === "CANCELLED" ? (
-              <p className="cancelled-message">
-                This order has been cancelled.
-              </p>
+              <p className="cancelled-message">This order has been cancelled.</p>
             ) : (
               <div className="tracking-progress">
-                {statuses.map((status, index) => {
-                  const currentIndex = statuses.indexOf(order.status);
-
-                  return (
-                    <div
-                      key={status}
-                      className={`tracking-step ${
-                        index <= currentIndex ? "completed" : ""
-                      }`}
-                    >
-                      <div className="tracking-dot"></div>
-                      <span>{statusLabels[status]}</span>
+                {STATUSES.map((status, index) => (
+                  <div
+                    key={status}
+                    className={`tracking-step ${
+                      index <= currentIndex ? "completed" : ""
+                    }`}
+                  >
+                    <div className="tracking-dot">
+                      {index <= currentIndex && <Check size={12} />}
                     </div>
-                  );
-                })}
+                    <span>{STATUS_LABELS[status]}</span>
+                  </div>
+                ))}
               </div>
             )}
 
@@ -136,7 +153,8 @@ function OrderTracking() {
                   Size: {item.size} | Color: {item.color}
                 </p>
                 <p>
-                  Quantity: {item.quantity} | ৳ {item.lineTotal}
+                  Quantity: {item.quantity} | ৳{" "}
+                  {Number(item.lineTotal).toLocaleString("en-BD")}
                 </p>
               </div>
             ))}

@@ -1,50 +1,107 @@
 
 .tracking-page {
-  min-height: 80vh;
-  padding: 50px 20px;
-  background: #faf6f1;
+  min-height: 100svh;
+  padding: 0 16px 60px;
+  background:
+    radial-gradient(800px 360px at 90% 0%, rgba(176, 141, 87, 0.16), transparent 60%),
+    var(--ivory);
+}
+
+.tracking-header {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tracking-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--rosewood);
+}
+.tracking-back:hover {
+  text-decoration: underline;
+}
+
+.tracking-brand {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--rosewood);
 }
 
 .tracking-card {
-  max-width: 650px;
-  margin: auto;
-  padding: 35px;
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 5px 25px #593b2c12;
+  max-width: 680px;
+  margin: 10px auto 0;
+  padding: 38px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+.tracking-eyebrow {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
 }
 
 .tracking-card h1 {
-  color: #593b2c;
-  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.tracking-sub {
+  color: var(--ink-soft);
+  margin-top: 6px;
 }
 
 .tracking-card label {
   display: block;
-  margin-top: 18px;
-  margin-bottom: 7px;
+  margin: 18px 0 6px;
+  font-size: 13.5px;
   font-weight: 600;
 }
 
 .tracking-card input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #d6c2b1;
-  border-radius: 7px;
-  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.tracking-card input:focus {
+  outline: none;
+  border-color: var(--rosewood);
+  box-shadow: 0 0 0 3px rgba(110, 43, 58, 0.12);
 }
 
 .tracking-card form button {
   width: 100%;
-  margin-top: 22px;
-  padding: 13px;
-  background: #593b2c;
-  color: white;
+  margin-top: 24px;
+  padding: 14px;
   border: none;
-  border-radius: 7px;
-  cursor: pointer;
+  border-radius: 10px;
+  background: var(--rosewood);
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.2s;
 }
-
+.tracking-card form button:hover:not(:disabled) {
+  background: var(--rosewood-dark);
+}
 .tracking-card button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -52,84 +109,137 @@
 
 .tracking-error {
   margin-top: 20px;
-  padding: 12px;
-  background: #ffeaea;
-  color: #b42318;
-  border-radius: 7px;
+  padding: 12px 14px;
+  background: #fdecea;
+  color: var(--danger);
+  border-radius: 8px;
+  font-size: 14px;
 }
 
 .tracking-result {
-  margin-top: 30px;
-  border-top: 1px solid #eadfd5;
-  padding-top: 20px;
+  margin-top: 32px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
 }
 
-.tracking-status {
-  margin: 20px 0;
+.tracking-result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.tracking-result-head h2 {
+  font-size: 20px;
 }
 
-.status-pending { color: #b7791f; }
-.status-confirmed { color: #2563eb; }
-.status-shipped { color: #7c3aed; }
-.status-delivered { color: #16803c; }
-.status-cancelled { color: #b42318; }
+.tracking-pill {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--sand);
+}
+.status-pending { color: #b7791f; background: #fdf3e0; }
+.status-confirmed { color: #2563eb; background: #e8f0fe; }
+.status-shipped { color: #7c3aed; background: #f1eafe; }
+.status-delivered { color: var(--success); background: #e3f3e8; }
+.status-cancelled { color: var(--danger); background: #fdecea; }
+
+.tracking-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 24px;
+  margin: 22px 0 0;
+}
+.tracking-meta dt {
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.tracking-meta dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
 
 .tracking-progress {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  margin: 30px 0;
+  position: relative;
+  margin: 36px 0 32px;
+}
+.tracking-progress::before {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: var(--line);
 }
 
 .tracking-step {
+  position: relative;
   flex: 1;
   text-align: center;
-  color: #999;
-  font-size: 12px;
+  color: #a59a94;
+  font-size: 13px;
 }
 
 .tracking-dot {
-  width: 15px;
-  height: 15px;
-  margin: 0 auto 9px;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto 8px;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
-  background: #ddd;
+  background: #e6ded6;
+  color: #fff;
+  position: relative;
+  z-index: 1;
 }
 
 .tracking-step.completed {
-  color: #593b2c;
+  color: var(--rosewood);
   font-weight: 600;
 }
-
 .tracking-step.completed .tracking-dot {
-  background: #593b2c;
+  background: var(--rosewood);
+}
+
+.tracking-result h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
 }
 
 .tracking-item {
   padding: 12px 0;
-  border-bottom: 1px solid #eadfd5;
+  border-bottom: 1px solid var(--line);
 }
-
 .tracking-item p {
-  margin: 5px 0;
+  margin-top: 3px;
   font-size: 14px;
+  color: var(--ink-soft);
 }
 
 .cancelled-message {
-  color: #b42318;
+  margin: 24px 0;
+  color: var(--danger);
   font-weight: 600;
 }
 
 @media (max-width: 480px) {
   .tracking-card {
-    padding: 22px 16px;
+    padding: 24px 18px;
   }
-
-  .tracking-progress {
-    gap: 3px;
+  .tracking-card h1 {
+    font-size: 30px;
   }
-
+  .tracking-meta {
+    grid-template-columns: 1fr;
+  }
   .tracking-step {
-    font-size: 10px;
+    font-size: 11.5px;
   }
 }
