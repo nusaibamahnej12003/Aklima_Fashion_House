@@ -5,7 +5,7 @@ import { AdminLogin, AdminDashboard } from "./Admin";
 import "./App.css";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-function Storefront() {
+function Storefront({ storeSettings })  {
   const [selectedCategory, setSelectedCategory] = useState("সব পণ্য");
   const [search, setSearch] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -800,7 +800,10 @@ fetch(`${API_BASE_URL}/api/store-settings`)
 
   return (
     <Routes>
-      <Route path="/" element={<Storefront />} />
+      <Route
+  path="/"
+  element={<Storefront storeSettings={storeSettings} />}
+/>
 
       <Route path="/admin/login" element={<AdminLogin />} />
 
